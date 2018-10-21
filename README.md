@@ -60,10 +60,8 @@ Supports form posts just like normal...
 
 	use Data::Dumper;
 	use Config qw(myconfig);
-	use CGI;
 
-	my $q = CGI->new;
-  	my %in = $q->Vars;	
+  	# %in is populated by the mod_perl handler
 
 	if( $in{cmd} eq "env" )
 	{
