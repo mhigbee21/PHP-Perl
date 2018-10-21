@@ -1,9 +1,11 @@
 package PHP::Perl;
 use strict;
 use warnings;
+our( %GLOBAL, %in );
 use Apache2::Const qw(FORBIDDEN OK);
 use Apache2::RequestUtil;
 use Data::Dumper;
+use CGI;
 use Carp;
 
 sub handler
@@ -11,7 +13,10 @@ sub handler
 	my $r = shift;
 
 	return FORBIDDEN if ( $r->filename() !~ /\.perl$|\.pl/i );
-	
+
+	my $q = CGI->new;
+        %in = $q->Vars;
+
   	my $html = ${ $r->slurp_filename() };
 
 	my $path = $ENV{'DOCUMENT_ROOT'};
@@ -48,8 +53,8 @@ sub process
 	$html = mergeIncludes( $html, $path );
 
 	while( $html =~ /<\?perl/g )
-        {
-                $html =~ m/<\?perl(.*?)\?>/s;
+	{
+		$html =~ m/<\?perl(.*?)\?>/s;
                
                 my $code = $1;
 		
