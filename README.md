@@ -8,8 +8,9 @@ The directions assume that you already have mod_perl 2 installed on your linux m
 
 ```
 ## Files
-Copy startup.pl to /usr/local/apache/libs
-Copy the PHP dir to /usr/local/apache/libs
+
+Copy: startup.pl to /usr/local/apache/libs
+Copy: the PHP dir to /usr/local/apache/libs
 
 Add startup.pl to the Apache conf file
 
@@ -22,7 +23,6 @@ Add to virtual host record...
         SetHandler perl-script
         PerlHandler PHP::Perl
   </LocationMatch>
-
 
 Copy test.pl, header.pl, footer.pl to the home dir of your app...
 
