@@ -9,6 +9,7 @@ The directions assume that you already have mod_perl 2 installed on your linux m
 ```
 ## Files
 
+```
 Copy: startup.pl to /usr/local/apache/libs
 Copy: the PHP dir to /usr/local/apache/libs
 
