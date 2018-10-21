@@ -1,6 +1,6 @@
 # PHP-Perl
 
-PHP::Perl is very small mod_perl module that gives you the ablility to embed perl in to html like PHP... 
+PHP::Perl is very small mod_perl module that gives you the ablility to embed perl into html like PHP... 
 
 ```
 ## Installation
@@ -47,6 +47,44 @@ Include files
 
 
 <?perl include="footer.html"?>
+
+Supports form posts just like normal...
+
+<form action="" method="post">
+<input type="hidden" name="cmd" value="env">
+<button type="submit">Get Env</button>
+</form>
+
+<p>
+<?perl
+
+	use Data::Dumper;
+	use Config qw(myconfig);
+	use CGI;
+
+	my $q = CGI->new;
+  	my %in = $q->Vars;	
+
+	if( $in{cmd} eq "env" )
+	{
+		printEnv();
+	}
+
+	sub printEnv
+	{
+		print "<pre>";
+		print Dumper %ENV;
+		print "</pre>";
+
+		print "<br><br>";
+	
+		print "<pre>";
+		print myconfig();
+		print "</pre>";
+	}
+
+?>
+</p>
 
 
 ```
