@@ -83,6 +83,30 @@ Supports form posts just like normal...
 
 ?>
 </p>
+```
+## Working with Forms..
+
+```
+Text
+<input type="text" name="textbox1" value="<?perl $in{textbox1}?>">
+
+Textarea
+<textarea name="textarea1"><?perl $in{textarea1}?></textarea>
+
+
+Selects
+<select id="company" name="company">
+<option <?perl if ($in{company} == 1 ){print 'selected';} ?> value="1">Apple</option>
+<option <?perl if ($in{company} == 2 ){print 'selected';} ?> value="2">Samsung</option>
+<option <?perl if ($in{company} == 3 ){print 'selected';} ?> value="3">HTC</option>
+</select>
+
+Checkboxs
+<input type="checkbox" name="checkbox1" <?perl if($in{checkbox1} eq 'Y'){print 'checked';}?> value="Y">
+
+Radios
+<input type="radio" name="radio1" <?perl if($in{radio1} eq 'A'){print 'checked';}?> value="A">
+<input type="radio" name="radio1" <?perl if($in{radio1} eq 'B'){print 'checked';}?> value="B">
 
 
 ```
