@@ -1,17 +1,22 @@
 package PHP::Perl;
 use strict;
 use warnings;
-our( %GLOBAL, %in );
+our( %in );
 use Apache2::Const qw(FORBIDDEN OK);
 use Apache2::RequestUtil;
 use Data::Dumper;
 use Carp;
+use IO::String;
 
 sub handler
 {
 	my $r = shift;
+
 	return FORBIDDEN if ( $r->filename() !~ /\.perl$|\.pl/i );
-	 
+	
+	# reset for each request 
+	%in = ();	
+ 
 	if( $r->method eq 'POST' )
         {
                 my $post_data  = $r->content;
@@ -35,11 +40,12 @@ sub handler
         }
 
   	my $html = ${ $r->slurp_filename() };
+
 	my $path = $ENV{'DOCUMENT_ROOT'};
 	$path .= '/' unless ( $path =~ /\/$/ );
 	
 	$html = process( $html, $path );
-	
+
 	$r->content_type('text/html');
 	$r->print( $html );
 	return OK;
@@ -48,8 +54,9 @@ sub handler
 sub mergeIncludes
 {
 	my ( $html, $path ) = @_;
+
 	my @fields = ( $html =~ m/<\?perl include="(.*?)"\?>/sg );
-	
+
 	foreach my $file( @fields )
         {
 		my $tmp;
@@ -64,20 +71,24 @@ sub mergeIncludes
 sub process
 {
 	my ( $html, $path ) = @_;
-	
+
 	$html = mergeIncludes( $html, $path );
 
 	while( $html =~ /<\?perl/g )
 	{
 		$html =~ m/<\?perl(.*?)\?>/s;
-		my $code = $1;
-	
-		# set STDOUT to a scalar...
+                my $code = $1;
+		
+		# redirect STDOUT to a scalar...
 		my $result;
-		open my $fh, '>', \$result;
-		my $stdout = select $fh;
-		$result .= eval "$code";	
-		close( $fh );                
+
+  		my $str_fh = IO::String->new($result);
+  		my $old_fh = select($str_fh);
+	
+		$result .= eval "$code";  
+
+  		#reset default fh to previous value
+  		select($old_fh) if defined $old_fh;
 
                 if( $@ )
                 {
