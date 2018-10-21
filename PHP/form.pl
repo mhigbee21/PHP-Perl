@@ -13,11 +13,11 @@
 
 	use Data::Dumper;
 	use Config qw(myconfig);
-	#use CGI;
+	# use CGI;
 
-	#my $q = CGI->new;
-  	#my %in = $q->Vars;	
-	# moved this to the mod perl handler so all your script tags will hav access to in parameters
+	# my $q = CGI->new;
+  	# my %in = $q->Vars;	
+	# moved this to the mod perl handler so all script tags will have access to the %in parameters
 
 	if( $in{cmd} eq "env" )
 	{
