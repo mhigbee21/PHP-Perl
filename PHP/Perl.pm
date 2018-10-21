@@ -1,7 +1,7 @@
 package PHP::Perl;
 use strict;
 use warnings;
-use Apache2::Const qw(NOT_FOUND FORBIDDEN SERVER_ERROR OK);
+use Apache2::Const qw(FORBIDDEN OK);
 use Apache2::RequestUtil;
 use Data::Dumper;
 use Carp;
@@ -32,7 +32,9 @@ sub mergeIncludes
 
 	foreach my $file( @fields )
         {
-                my $tmp = getfile( $file, $path);
+		my $tmp;
+		$tmp = "$file is an Illegal File name! Supported files are (.pl .perl .htm .html)" if( $file !~ /\.pl$|\.perl$|\.html$|\.htm$/ );
+                $tmp = getfile( $file, $path) unless $tmp;
                 $html =~ s/<\?perl include="$file"\?>/$tmp/s;
         }
 
@@ -82,7 +84,7 @@ sub getfile
 	if( -e "$path$file" )
 	{
 		local $/;	
-		open(my $FILE, "<", "$path$file") or warn "Can't Open file $path$file $!";
+		open(my $FILE, "<", "$path$file") || carp "Can't Open file $path$file $!";
 		my $contents = <$FILE>;
 		return $contents;
 	}
@@ -103,9 +105,9 @@ sub getfile
   </LocationMatch>
 
 	
-	add test.pl in your home dir...
+	add test.pl in your web app home dir...
 	retart apache
-	point browser to yourdomain.com/test.pl
+	point browser to http://yourdomain.com/test.pl
 
 <?perl 
 
