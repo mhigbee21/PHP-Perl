@@ -13,9 +13,28 @@ sub handler
 	my $r = shift;
 
 	return FORBIDDEN if ( $r->filename() !~ /\.perl$|\.pl/i );
+	 
+	if( $r->method eq 'POST' )
+        {
+                my $post_data  = $r->content;
+                my @nvp = split( /&/, $post_data );
 
-	my $q = CGI->new;
-        %in = $q->Vars;
+                foreach my $nvp ( @nvp )
+                {
+                        my( $name, $value ) = split( /=/, $nvp );
+                        $in{$name} = $value;
+                }
+        }
+        elsif ( $r->method eq 'GET' )
+        {
+                my $query_string = $r->args;  # GET data
+                my @nvp = split( /&/, $query_string );
+                foreach my $nvp ( @nvp )
+                {
+                        my( $name, $value ) = split( /=/, $nvp );
+                        $in{$name} = $value;
+                }
+        }
 
   	my $html = ${ $r->slurp_filename() };
 
@@ -55,7 +74,6 @@ sub process
 	while( $html =~ /<\?perl/g )
 	{
 		$html =~ m/<\?perl(.*?)\?>/s;
-               
                 my $code = $1;
 		
 		# set STDOUT to a scalar...
