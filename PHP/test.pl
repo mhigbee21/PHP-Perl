@@ -1,4 +1,5 @@
-<p> PHP::Perl </p>
+
+<?perl include="header.pl"?>
 
 <p>
 <?perl
@@ -17,3 +18,6 @@
 	print "</pre>";
 ?>
 </p>
+
+
+<?perl include="footer.pl"?>
