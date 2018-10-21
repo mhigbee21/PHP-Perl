@@ -11,19 +11,16 @@ use Carp;
 sub handler
 {
 	my $r = shift;
-
 	return FORBIDDEN if ( $r->filename() !~ /\.perl$|\.pl/i );
-
 	my $q = CGI->new;
         %in = $q->Vars;
 
   	my $html = ${ $r->slurp_filename() };
-
 	my $path = $ENV{'DOCUMENT_ROOT'};
 	$path .= '/' unless ( $path =~ /\/$/ );
 	
 	$html = process( $html, $path );
-
+	
 	$r->content_type('text/html');
 	$r->print( $html );
 	return OK;
@@ -32,9 +29,8 @@ sub handler
 sub mergeIncludes
 {
 	my ( $html, $path ) = @_;
-
 	my @fields = ( $html =~ m/<\?perl include="(.*?)"\?>/sg );
-
+	
 	foreach my $file( @fields )
         {
 		my $tmp;
@@ -49,17 +45,15 @@ sub mergeIncludes
 sub process
 {
 	my ( $html, $path ) = @_;
-
+	
 	$html = mergeIncludes( $html, $path );
 
 	while( $html =~ /<\?perl/g )
 	{
-		$html =~ m/<\?perl(.*?)\?>/s;
-               
+		$html =~ m/<\?perl(.*?)\?>/s;               
                 my $code = $1;
-		
+	
 		# set STDOUT to a scalar...
-		
 		my $result;
 		open my $fh, '>', \$result;
 		my $stdout = select $fh;
