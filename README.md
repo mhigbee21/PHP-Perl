@@ -87,6 +87,8 @@ Supports form posts just like normal...
 ## Working with Forms..
 
 ```
+See form.pl
+
 Text
 <input type="text" name="textbox1" value="<?perl $in{textbox1}?>">
 
@@ -107,6 +109,38 @@ Checkboxs
 Radios
 <input type="radio" name="radio1" <?perl if($in{radio1} eq 'A'){print 'checked';}?> value="A">
 <input type="radio" name="radio1" <?perl if($in{radio1} eq 'B'){print 'checked';}?> value="B">
+
+
+
+```
+## Config file
+
+```
+
+		You can use a config file for database, memcached or another configuration variables...
+
+		# add the path to your config file in httpd.conf
+		PerlsetVar webconfig /{filepath}/{filename}
+	
+		see web.config
+
+```
+
+
+```
+## Database
+    
+```
+
+	Set the database connection information in web config
+	
+	database=php_perl
+	dbhost=localhost
+	dbuser=root     
+	dbpass=
+	driver=DBI:mysql	
+
+	Access the Database with the variable $dbh which is set in mod_perl handler
 
 
 ```
