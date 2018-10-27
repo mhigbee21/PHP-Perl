@@ -19,6 +19,7 @@ PerlRequire /usr/local/apache/libs/startup.pl
 
 Add to virtual host record...
 
+  PerlsetVar webconfig /{filepath}/{filename}
   PerlModule PHP::Perl
   <LocationMatch ^/([^?.&=%+]+).pl$ >
         SetHandler perl-script
