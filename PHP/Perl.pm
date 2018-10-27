@@ -20,7 +20,7 @@ sub handler
 	# PerlSetVar webconfig /{filepath}/web.config
 	my $webconfig = $r->dir_config('webconfig');
 
-	if( d$webconfig )
+	if( $webconfig )
 	{
 		$config ||= parseWebConfig( $webconfig );
 		#warn Dumper $config;
