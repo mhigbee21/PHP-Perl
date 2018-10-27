@@ -137,7 +137,7 @@ Radios
 	database=php_perl
 	dbhost=localhost
 	dbuser=root     
-	dbpass=
+	dbpass=PerlRuleZ
 	driver=DBI:mysql	
 
 	Access the Database with the variable $dbh which is set in mod_perl handler
