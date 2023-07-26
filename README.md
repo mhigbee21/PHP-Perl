@@ -1,10 +1,10 @@
 # PHP-Perl
 
-PHP::Perl is very small mod_perl module that gives you the ablility to embed perl into html like PHP... 
+PHP::Perl is very small mod_perl module that gives you the ability to embed perl into html like PHP.
 
 ```
 ## Installation
-The directions assume that you already have mod_perl 2 installed on your linux machine or container... 
+The directions assume that you already have mod_perl 2 installed on your linux machine or container. 
 
 ```
 ## Files
